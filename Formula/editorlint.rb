@@ -2,25 +2,25 @@ class Editorlint < Formula
   desc "A comprehensive tool to validate and fix files according to .editorconfig specifications"
   homepage "https://github.com/dobbo-ca/editorlint"
   license "MIT"
-  version "1.3.9"
+  version "0.2.0"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/dobbo-ca/editorlint/releases/download/1.3.9/editorlint_v1.3.9_darwin_arm64.tar.gz"
-      sha256 "9cece0ffe7cad27ff7fcb1c337fe9443ae5b5bf872f179491e00ecf629d6db75"
+      url "https://github.com/dobbo-ca/editorlint/releases/download/0.2.0/editorlint_v0.2.0_darwin_arm64.tar.gz"
+      sha256 "294dd8899d2c04dc136980b1ec65e7f8ab5e8137edac9e0c373340d472ae4fc9"
     else
-      url "https://github.com/dobbo-ca/editorlint/releases/download/1.3.9/editorlint_v1.3.9_darwin_amd64.tar.gz"
-      sha256 "36d79bf043239a159aac280e050511da91a44f1b5a91e67b56bb8f4b7dc8dfd2"
+      url "https://github.com/dobbo-ca/editorlint/releases/download/0.2.0/editorlint_v0.2.0_darwin_amd64.tar.gz"
+      sha256 "a6d426e5ebad5f22220a1586ea319f619e5ba114bf6370afac6aa71ab6e27d9a"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/dobbo-ca/editorlint/releases/download/1.3.9/editorlint_v1.3.9_linux_arm64.tar.gz"
-      sha256 "905f998166df2ead06e0363f178883651169a5bf7960b476ebd0fa1ce60a23e1"
+      url "https://github.com/dobbo-ca/editorlint/releases/download/0.2.0/editorlint_v0.2.0_linux_arm64.tar.gz"
+      sha256 "06445a590b2e3a3081ef84c3058e2efeb99c823e03d97cdb611ef43d92c5f108"
     else
-      url "https://github.com/dobbo-ca/editorlint/releases/download/1.3.9/editorlint_v1.3.9_linux_amd64.tar.gz"
-      sha256 "586a4966758dba043d62729c2e3da24f1adea24994c2772a88694e95416da2f4"
+      url "https://github.com/dobbo-ca/editorlint/releases/download/0.2.0/editorlint_v0.2.0_linux_amd64.tar.gz"
+      sha256 "0fa4823b18ef63236bb4f101ea74259a020a3abbd9f964021629ad4a6425d8d8"
     end
   end
 
