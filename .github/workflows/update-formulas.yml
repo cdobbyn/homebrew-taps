@@ -8,10 +8,17 @@ jobs:
     if: github.event.action == 'update_editorlint'
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.DOBBOBOT_APP_ID }}
+          private-key: ${{ secrets.DOBBOBOT_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
       
       - name: Update editorlint formula
         run: |
@@ -58,3 +65,5 @@ jobs:
           git add Formula/editorlint.rb
           git commit -m "chore: update editorlint to ${{ github.event.client_payload.version }}"
           git push
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
