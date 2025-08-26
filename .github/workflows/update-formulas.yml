@@ -1,0 +1,60 @@
+name: Update Formulas
+on:
+  repository_dispatch:
+    types: [update_editorlint]
+
+jobs:
+  update-editorlint:
+    if: github.event.action == 'update_editorlint'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update editorlint formula
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          DARWIN_ARM64_SHA256="${{ github.event.client_payload.darwin_arm64_sha256 }}"
+          DARWIN_AMD64_SHA256="${{ github.event.client_payload.darwin_amd64_sha256 }}"
+          LINUX_ARM64_SHA256="${{ github.event.client_payload.linux_arm64_sha256 }}"
+          LINUX_AMD64_SHA256="${{ github.event.client_payload.linux_amd64_sha256 }}"
+          
+          echo "Updating editorlint formula to version: $VERSION"
+          echo "Darwin ARM64 SHA256: $DARWIN_ARM64_SHA256"
+          echo "Darwin AMD64 SHA256: $DARWIN_AMD64_SHA256"
+          echo "Linux ARM64 SHA256: $LINUX_ARM64_SHA256"
+          echo "Linux AMD64 SHA256: $LINUX_AMD64_SHA256"
+          
+          # Update version
+          sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/editorlint.rb
+          
+          # Update URLs for each platform
+          sed -i "s|editorlint_v[0-9.]*_darwin_arm64.tar.gz|editorlint_v${VERSION}_darwin_arm64.tar.gz|g" Formula/editorlint.rb
+          sed -i "s|editorlint_v[0-9.]*_darwin_amd64.tar.gz|editorlint_v${VERSION}_darwin_amd64.tar.gz|g" Formula/editorlint.rb
+          sed -i "s|editorlint_v[0-9.]*_linux_arm64.tar.gz|editorlint_v${VERSION}_linux_arm64.tar.gz|g" Formula/editorlint.rb
+          sed -i "s|editorlint_v[0-9.]*_linux_amd64.tar.gz|editorlint_v${VERSION}_linux_amd64.tar.gz|g" Formula/editorlint.rb
+          
+          # Update release version in URLs
+          sed -i "s|/download/[0-9.]*/|/download/${VERSION}/|g" Formula/editorlint.rb
+          
+          # Update SHA256s for each platform (more specific replacements)
+          sed -i "/darwin_arm64.tar.gz/,/sha256/ s/sha256 \".*\"/sha256 \"${DARWIN_ARM64_SHA256}\"/" Formula/editorlint.rb
+          sed -i "/darwin_amd64.tar.gz/,/sha256/ s/sha256 \".*\"/sha256 \"${DARWIN_AMD64_SHA256}\"/" Formula/editorlint.rb
+          sed -i "/linux_arm64.tar.gz/,/sha256/ s/sha256 \".*\"/sha256 \"${LINUX_ARM64_SHA256}\"/" Formula/editorlint.rb
+          sed -i "/linux_amd64.tar.gz/,/sha256/ s/sha256 \".*\"/sha256 \"${LINUX_AMD64_SHA256}\"/" Formula/editorlint.rb
+          
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if git diff --quiet Formula/editorlint.rb; then
+            echo "No changes to formula file"
+            exit 0
+          fi
+          
+          git add Formula/editorlint.rb
+          git commit -m "chore: update editorlint to ${{ github.event.client_payload.version }}"
+          git push

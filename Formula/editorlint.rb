@@ -2,17 +2,30 @@ class Editorlint < Formula
   desc "A comprehensive tool to validate and fix files according to .editorconfig specifications"
   homepage "https://github.com/cdobbyn/editorlint"
   license "MIT"
-  head "https://github.com/cdobbyn/editorlint.git", branch: "main"
-
-  # This will be updated automatically by the release workflow
-  url "https://github.com/cdobbyn/editorlint/archive/refs/tags/1.3.9.tar.gz"
-  sha256 "ebec048ea0bed673792b658ee723c84972d0d3fb8673fd0c4e5d0072a0f27ed5"
   version "1.3.9"
 
-  depends_on "go" => :build
+  on_macos do
+    if Hardware::CPU.arm?
+      url "https://github.com/cdobbyn/editorlint/releases/download/1.3.9/editorlint_v1.3.9_darwin_arm64.tar.gz"
+      sha256 "darwin_arm64_sha256_placeholder"
+    else
+      url "https://github.com/cdobbyn/editorlint/releases/download/1.3.9/editorlint_v1.3.9_darwin_amd64.tar.gz"
+      sha256 "darwin_amd64_sha256_placeholder"
+    end
+  end
+
+  on_linux do
+    if Hardware::CPU.arm?
+      url "https://github.com/cdobbyn/editorlint/releases/download/1.3.9/editorlint_v1.3.9_linux_arm64.tar.gz"
+      sha256 "linux_arm64_sha256_placeholder"
+    else
+      url "https://github.com/cdobbyn/editorlint/releases/download/1.3.9/editorlint_v1.3.9_linux_amd64.tar.gz"
+      sha256 "linux_amd64_sha256_placeholder"
+    end
+  end
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd/editorlint"
+    bin.install "editorlint"
   end
 
   test do
