@@ -27,12 +27,18 @@ jobs:
           DARWIN_AMD64_SHA256="${{ github.event.client_payload.darwin_amd64_sha256 }}"
           LINUX_ARM64_SHA256="${{ github.event.client_payload.linux_arm64_sha256 }}"
           LINUX_AMD64_SHA256="${{ github.event.client_payload.linux_amd64_sha256 }}"
+          ORGANIZATION="${{ github.repository_owner }}"
           
           echo "Updating editorlint formula to version: $VERSION"
+          echo "Organization: $ORGANIZATION"
           echo "Darwin ARM64 SHA256: $DARWIN_ARM64_SHA256"
           echo "Darwin AMD64 SHA256: $DARWIN_AMD64_SHA256"
           echo "Linux ARM64 SHA256: $LINUX_ARM64_SHA256"
           echo "Linux AMD64 SHA256: $LINUX_AMD64_SHA256"
+          
+          # Update homepage and URLs to use current organization
+          sed -i "s|homepage \"https://github.com/[^/]*/editorlint\"|homepage \"https://github.com/${ORGANIZATION}/editorlint\"|" Formula/editorlint.rb
+          sed -i "s|https://github.com/[^/]*/editorlint/|https://github.com/${ORGANIZATION}/editorlint/|g" Formula/editorlint.rb
           
           # Update version
           sed -i "s|version \".*\"|version \"${VERSION}\"|" Formula/editorlint.rb
