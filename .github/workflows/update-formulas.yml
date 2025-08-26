@@ -12,8 +12,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v1
         with:
-          app-id: ${{ vars.DOBBOBOT_APP_ID }}
-          private-key: ${{ secrets.DOBBOBOT_APP_PRIVATE_KEY }}
+          app-id: ${{ vars.AUTOMATIONS_APP_ID }}
+          private-key: ${{ secrets.AUTOMATIONS_APP_PRIVATE_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v4
