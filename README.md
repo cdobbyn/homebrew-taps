@@ -1,11 +1,11 @@
 # Homebrew Taps
 
-This repository contains Homebrew formulas for cdobbyns tools.
+This repository contains Homebrew formulas for editorlint tools.
 
 ## Installation
 
 ```bash
-brew tap dobbo-ca/taps
+brew tap editorlint/taps
 brew install editorlint
 ```
 
@@ -22,7 +22,7 @@ After tapping this repository, you can install any of the available tools:
 brew install editorlint
 
 # Or install directly without tapping first
-brew install dobbo-ca/taps/editorlint
+brew install editorlint/taps/editorlint
 ```
 
 ## Updating
